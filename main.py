@@ -7,7 +7,7 @@ app.config['DEBUG'] = True
 
 @app.route("/")
 def display_index():
-    return render_template("index.html")    
+    return render_template("index.html")
 
 def is_blank(resp):
     if len(resp) == 0:
@@ -21,9 +21,18 @@ def is_valid(resp):
     elif (len(resp) < 3) or (len(resp) > 20):
         return False
     else:
-        return True                   
+        return True
 
-@app.route("/", methods=["POST"],)
+def valid_email(resp):
+    if ("@" and "." in resp) and (len(resp) > 3) and (len(resp) < 20):
+        return True
+    elif resp == "":
+        return True    
+    else:
+        return False    
+
+
+@app.route("/", methods=["POST"])
 def validate_response():
 
     username = request.form["username"]
@@ -57,19 +66,27 @@ def validate_response():
         elif password != password2:
             pass_error2 = "Not valid (Not matching)"
             password2 = ""
-    if not name_error and not pass_error and not pass_error2:
+    if not valid_email(email):
+            email_error = "Not valid email"
+            email = ""        
+    if not name_error and not pass_error and not pass_error2 and not email_error:
         name = username
-        return redirect("/welcome?name={0}".format(name))        
+        return render_template("welcome.html",
+            name = name
+        )
     else:
         return render_template("index.html",
+            username = username,
+            password = password,
+            password2 = password2,
+            email = email,
             name_error = name_error,
             pass_error = pass_error,
             pass_error2 = pass_error2,
             email_error = email_error
     )        
 @app.route("/welcome")
-def welcome():
-    name = request.args.get('name')
-    return "<h1>Welcome {0}!</h1>".format(name)    
+def welcome():  
+    return render_template("welcome.html")   
 
 app.run()        

@@ -1,0 +1,8 @@
+.error { 
+    color: red; 
+}
+
+.errorbox{
+    float: right;
+    width: 200px;
+}
