@@ -40,6 +40,8 @@ def validate_response():
     password2 = request.form["password2"]
     email = request.form["email"]
 
+    not_valid ="Not valid (Between 3-20 characters and no whitespace)" 
+    
     name_error = ''
     pass_error = ''
     pass_error2 = ''
@@ -49,22 +51,22 @@ def validate_response():
         name_error = "Empty field"
     else:    
         if not is_valid(username):
-            name_error = "Not valid (Between 3-20 characters and no whitespace."
+            name_error = not_valid
             username = ""
     if is_blank(password):
         pass_error = "Empty field"
     else:
         if not is_valid(password):
-            pass_error = "Not valid (Between 3-20 characters and no whitespace."
+            pass_error = not_valid
             password =""
     if is_blank(password2):
         pass_error2 ="Empty field"
     else:
         if not is_valid(password2):
-            pass_error2 = "Not valid (Between 3-20 characters and no whitespace."
+            pass_error2 = not_valid
             password2 = ""      
         elif password != password2:
-            pass_error2 = "Not valid (Not matching)"
+            pass_error2 = "Not matching"
             password2 = ""
     if not valid_email(email):
             email_error = "Not valid email"

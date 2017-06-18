@@ -1,7 +1,4 @@
-.error { 
-    color: red; 
-}
+ <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
 
-.signup{
-    text-align: center;
-}
+
+
